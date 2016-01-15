@@ -1,4 +1,4 @@
-
+(function() {
 
 var deck = [
 	{value: 2, image: "cards/2_of_clubs.png"},
@@ -313,6 +313,6 @@ function enableBetting() {
 	$('.clear').attr('disabled', false).removeClass('disabled');
 }
 
-
+})();
 
 

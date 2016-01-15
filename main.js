@@ -62,7 +62,7 @@ var totalChips = 1000;
 var checks = {
 	blackjack: function() {
 		if (hand.user.sum === 21) {
-			$('#winner').text('BLACK JACK!').show();
+			playerBlackjack();
 			disableButtons();
 		}
 	},
@@ -90,7 +90,6 @@ var checks = {
 			hand[turn].cards[index].value = 1;
 			sumCards();
 		}
-		console.log(index);
 	}
 }
 
@@ -111,6 +110,7 @@ var playerTurn = "user";
 $(document).ready(init);
 
 function init() {
+	disableButtons();
 	$('#deal').click(shuffleDeck);
 	$('#hit').click(hit);
 	$('#stay').click(stay);
@@ -119,17 +119,20 @@ function init() {
 }
 
 function shuffleDeck() {
+	if (totalBet > totalChips) {
+		return alert('Not enough chips');
+	}
+	if (totalBet === 0) {
+		return alert("Make a wager")
+	}
 	resetDeck();
 	totalChips -= totalBet;
 	adjustChips();
-	clearBet();
 	disableBetting();
 	$('#deal').attr('disabled',true).addClass('disabled');
 	$('#stay').attr('disabled',false).removeClass('disabled');
 	$('#hit').attr('disabled',false).removeClass('disabled');
-	// console.log('shuffle');
 	shuffled = _.shuffle(deck);
-	// console.log(shuffled);
 	dealCards();
 }
 
@@ -175,7 +178,6 @@ function addCard(turn) {
 		} else {
 			$('#dealerHand').append($newCard);
 		}
-		console.log(hand[turn].cards);
 		hand[turn].cards.push(shuffled[randIndex]);
 		var discard = shuffled.splice(randIndex, 1);
 		sumCards();
@@ -189,7 +191,6 @@ function sumCards() {
 	hand.dealer.sum = _.sumBy(hand.dealer.cards, function(o) {
 		return o['value'];
 	});
-	console.log(hand.user.sum);
 	$("#userTotal").text(hand.user.sum);
 	$("#dealerTotal").text(hand.dealer.sum);
 	$('#hit').show();
@@ -219,7 +220,7 @@ function dealerMove() {
 
 function compareHands() {
 	if (hand.user.sum === hand.dealer.sum) {
-		$('#winner').text("IT'S A PUSH").show();
+		nobodyWins();
 	} else if (hand.user.sum > hand.dealer.sum) {
 		return playerWins();
 	} else {
@@ -251,30 +252,50 @@ function resetDeck() {
 
 function dealerWins() {
 	$('#winner').text("DEALER WINS").show();
-	totalBet = 0;
-	adjustChips();
-	enableBetting();
+	readyHand();
 }
 
 function playerWins() {
 	totalChips += totalBet * 2;
 	$('#winner').text("PLAYER WINS").show();
-	totalBet = 0;
-	adjustChips();
-	enableBetting();
+	readyHand();
+}
+
+function playerBlackjack() {
+	totalChips += totalBet * 3;
+	$('#winner').text("BLACK JACK!").show();
+	readyHand();
+}
+
+function nobodyWins() {
+	totalChips += totalBet;
+	$('#winner').text("IT'S A PUSH").show();
+	readyHand();
 }
 
 function addBet() {
 	if (!$('.chips').hasClass('disabled')) {
 		var bet = Number($(this).text());
 		totalBet += bet;
-		console.log(bet);
 		$('#totalBet').val(totalBet);
 	}
 }
 
 function adjustChips() {
 	$('#totalChips').text(totalChips);
+}
+
+function readyHand() {
+	if (totalChips === 0) {
+		var moreChips = confirm("Out of chips, would you like 1000 more?");
+	}
+	if (moreChips) {
+		totalChips = 1000;
+	}
+	adjustChips();
+	totalBet = 0;
+	enableBetting();
+	clearBet();
 }
 
 function clearBet() {

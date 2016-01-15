@@ -96,6 +96,7 @@ span {
 	background-color: #bfbfbf;
 	color: black;
 	border: 3px solid black;
+	outline: : none;
 }
 
 .action:hover {
@@ -117,6 +118,7 @@ span {
 	vertical-align: center;
 	display: inline-block;
 	margin-right: 20px;
+	outline: none;
 	
 }
 

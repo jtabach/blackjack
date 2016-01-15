@@ -124,6 +124,7 @@ span {
 
 .chips > h3 {
 	padding-top: 20px;
+	color: #bfbfbf;
 }
 
 .chips:hover {
@@ -152,17 +153,19 @@ span {
 }
 
 input {
-	height: 50px;
+	height: 60px;
 	width: 80px;
 	border-radius: 10px;
-	font-size: 20px;
+	font-size: 30px;
 	text-align: center;
+	border: 5px solid black;
+	background: #bfbfbf;
 }
 
 #chipCount, #betSummary {
 	display: inline-block;
 	text-align: center;
-	margin-right: 62px
+	margin-right: 20px
 }
 
 #chipCount {
@@ -193,6 +196,22 @@ input {
 #bet {
 	height: 200px;
 	background: red;
+}
+
+.clear {
+	height: 50px;
+	font-size: 20px;
+	width: 110px;
+	padding: 5px;
+	border: 3px solid black;
+	background: brown;
+	color: white;
+	border-radius: 10px
+}
+
+.clear:hover {
+	cursor: pointer;
+	background: #8e2424;
 }
 
 .disabled {

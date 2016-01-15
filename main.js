@@ -305,13 +305,13 @@ function clearBet() {
 
 function disableBetting() {
 	$('.chips').attr('disabled', true).addClass('disabled');
+	$('.clear').attr('disabled', true).addClass('disabled');
 }
 
 function enableBetting() {
 	$('.chips').attr('disabled', false).removeClass('disabled');
+	$('.clear').attr('disabled', false).removeClass('disabled');
 }
-
-
 
 
 

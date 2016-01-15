@@ -65,11 +65,16 @@ var checks = {
 		if (hand[turn].sum > 21) {
 			var busted = checks.aces(turn);
 			if (busted) {
-				alert("user busted");
+				if (playerTurn === "user") {
+					$('#winner').text("DEALER WINS").show();
+				} else {
+					$('#winner').text('PLAYER WINS').show();
+				}
+			$('#hit').attr('disabled',true).addClass('disabled');
+			$('#stay').attr('disabled',true).addClass('disabled');
 			}
 		}
 	},
-
 	aces: function(turn) {
 		var index = _.findIndex(hand[turn].cards, function(o) {
 			return o["value"] === 11;
@@ -107,6 +112,7 @@ function init() {
 }
 
 function shuffleDeck() {
+	$('#deal').attr('disabled',true);
 	// console.log('shuffle');
 	shuffled = _.shuffle(deck);
 	// console.log(shuffled);
@@ -131,11 +137,14 @@ function hit() {
 }
 
 function stay() {
+	$('#hit').attr('disabled',true);
+	$('#stay').attr('disabled',true);
 	endTurn(playerTurn);
 }
 
 function endTurn(turn) {
 	if (turn === "user") {
+		playerTurn = "dealer";
 		dealerGo();
 	} else {
 		compareHands();
@@ -146,7 +155,7 @@ function addCard(turn) {
 	var randIndex = randomCard();
 	var $newCard = $('<div>').addClass('card').css('background-image', "url(" + shuffled[randIndex].image + ")");
 	if (turn === "user") {
-		$('#userHand').append($newCard);
+		$('#userHand').append($newCard); // FIXME: maybe can make one line
 	} else {
 		$('#dealerHand').append($newCard);
 	}
@@ -176,12 +185,27 @@ function dealerGo() {
 	$('#dealerHand').children().first().remove()
 	$('#dealerHand').prepend($newCard);
 	sumCards();
-	// console.log('stay');
+	dealerMove();
+}
 
+function dealerMove() {
+	checks.bust(playerTurn);
+	if (hand.dealer.sum > 16) {
+		compareHands();
+	} else {
+		addCard(playerTurn);
+		dealerMove();
+	}
 }
 
 function compareHands() {
-
+	if (hand.user.sum === hand.dealer.sum) {
+		$('#winner').text("IT'S A PUSH").show();
+	} else if (hand.user.sum > hand.dealer.sum){
+		alert('user wins');
+	} else {
+		alert('delear wins');
+	}
 }
 
 function randomCard() {
@@ -189,7 +213,7 @@ function randomCard() {
 }
 
 
-
+// $('#btn_submit').attr('disabled',true);
 
 
 

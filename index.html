@@ -6,18 +6,37 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<button id="deal">DEAL</button>
-	<button id="hit">HIT</button>
-	<button id="stay">STAY</button>
 	<div class="container">
-		<div id="dealerHand">
-			<div id="backCard"class="card"></div>
+		<div class="boardTable">
+			<h1 id="winner">PLAYER WINS</h1>
+			<h1 class="title">BLACK<span>J</span>ACK</h1>
+			<div class="wrapper">
+				<div class="board" id="dealerHand">
+					<div id="backCard"class="card"></div>
+				</div>
+				<div class="score">
+					<h1 class="player">DEALER</h1>
+					<h1 class="total">TOTAL</h1>
+					<h1 class="sum" id="dealerTotal">0</h1>
+				</div>
+			</div>
+			<div class="wrapper">
+				<div class="board" id="userHand">
+					<div id="backCard"class="card"></div>
+				</div>
+				<div class="score">
+					<h1 class="player">PLAYER</h1>
+					<h1 class="total">TOTAL</h1>
+					<h1 class="sum" id="userTotal">0</h1>
+				</div>
+			</div>	
+			<div id="actions">
+				<button id="deal">DEAL</button>
+				<button id="stay">STAY</button>
+				<button id="hit">HIT</button>
+			</div>
 		</div>
-		<h1 id="dealerTotal"></h1>
-		<div id="userHand">
-			
-		</div>
-		<h1 id="userTotal"></h1>
+	</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-2.2.0.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.0.0/lodash.min.js"></script>

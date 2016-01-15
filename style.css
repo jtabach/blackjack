@@ -6,10 +6,29 @@
 	float: left;
 	background: no-repeat;
 	background-size: contain;
+	margin-right: 10px;
+}
+
+body {
+	background: brown;
+}
+
+#backCard {
+	background-size: cover;
 }
 
 #dealerhand, #userHand {
 	clear: both;
+}
+
+#winner {
+	display: none;
+	position: absolute;
+	z-index: 1;
+	top: 201px;
+	left: 85px;
+	font-size: 100px;
+	color: #bfbfbf;
 }
 
 #backCard {
@@ -17,6 +36,90 @@
 	background-image: url("cards/back.png");
 }
 
-#hit {
-	display: none;
+.boardTable {
+	background-color: brown;
+	width: 1100px;
+	padding: 0 15px 15px 15px;
+	margin: 0 auto;
+	position: relative;
 }
+.wrapper {
+	height: 220px;
+}
+.board {
+	border: 5px solid black;
+	position: relative;
+	height: 150px;
+	padding: 20px;
+	width: 800px;
+	background: #007700;
+	display: inline-block;
+	margin: 0 auto;
+	float: left;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+}
+
+.score {
+	height:150px;
+	float: left;
+	background-color: #bfbfbf;
+	width:241px;
+	padding: 0 0 40px 0;
+	border: 5px solid black;
+	border-left: none;
+	text-align: center;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+
+.title {
+	text-align: center;
+	letter-spacing: 15px;
+	color: #bfbfbf;
+	font-size: 70px;
+	margin-bottom: 0px;
+}
+
+span {
+	color: black;
+	font-size: 100px;
+}
+
+button {
+	width: 200px;
+	height: 50px;
+	margin: 0 80px 10px 80px;
+	color: white;
+	font-size: 30px;
+	border-radius: 15px;
+	background-color: #bfbfbf;
+	color: black;
+	border: 3px solid black;
+}
+
+button:hover {
+	background-color: #a6a6a6;
+	cursor: pointer;
+}
+
+.disabled {
+	opacity: 0.5;
+}
+
+.disabled:hover {
+	background-color: #bfbfbf;
+	opacity: 0.5;
+	cursor: default;
+}
+
+.player {
+	color: brown;
+}
+
+
+
+
+
+
+

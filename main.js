@@ -55,10 +55,13 @@ var deck = [
 	{value: 11, image: "cards/ace_of_spades2.png"},
 ];
 
+var timeoutComplete = true;
+
 var checks = {
 	blackjack: function() {
 		if (hand.user.sum === 21) {
-			alert('Blackjack!');
+			$('#winner').text('BLACK JACK!').show();
+			disableButtons();
 		}
 	},
 	bust: function(turn) {
@@ -66,12 +69,12 @@ var checks = {
 			var busted = checks.aces(turn);
 			if (busted) {
 				if (playerTurn === "user") {
-					$('#winner').text("DEALER WINS").show();
+					disableButtons();
+					return dealerWins();
 				} else {
-					$('#winner').text('PLAYER WINS').show();
+					disableButtons();
+					return playerWins();
 				}
-			$('#hit').attr('disabled',true).addClass('disabled');
-			$('#stay').attr('disabled',true).addClass('disabled');
 			}
 		}
 	},
@@ -95,7 +98,7 @@ var hand = {
 		sum: 0
 	},
 	dealer: {
-		cards: [{value: 0, image: "cards/back.png"}],
+		cards: [],
 		sum: 0
 	}
 };
@@ -112,7 +115,10 @@ function init() {
 }
 
 function shuffleDeck() {
-	$('#deal').attr('disabled',true);
+	resetDeck();
+	$('#deal').attr('disabled',true).addClass('disabled');
+	$('#stay').attr('disabled',false).removeClass('disabled');
+	$('#hit').attr('disabled',false).removeClass('disabled');
 	// console.log('shuffle');
 	shuffled = _.shuffle(deck);
 	// console.log(shuffled);
@@ -120,7 +126,10 @@ function shuffleDeck() {
 }
 
 function dealCards() {
+
 	$("#backCard").show();
+	$('#dealerHand').append($('<div>').addClass('card').css('background-image', "url('cards/back.png')"));
+	hand.dealer.cards[0] = {value: 0, image: "cards/back.png"};
 	addCard(playerTurn); // user first card
 	addCard(playerTurn); // user second card
 	playerTurn = "dealer";
@@ -137,8 +146,7 @@ function hit() {
 }
 
 function stay() {
-	$('#hit').attr('disabled',true);
-	$('#stay').attr('disabled',true);
+	disableButtons();
 	endTurn(playerTurn);
 }
 
@@ -154,15 +162,21 @@ function endTurn(turn) {
 function addCard(turn) {
 	var randIndex = randomCard();
 	var $newCard = $('<div>').addClass('card').css('background-image', "url(" + shuffled[randIndex].image + ")");
-	if (turn === "user") {
-		$('#userHand').append($newCard); // FIXME: maybe can make one line
-	} else {
-		$('#dealerHand').append($newCard);
-	}
-	// console.log(hand[turn].cards);
-	hand[turn].cards.push(shuffled[randIndex]);
-	var discard = shuffled.splice(randIndex, 1);
-	sumCards();
+	// if (timeoutComplete) {
+		timeoutComplete = false;
+		// setTimeout(function() {
+			if (turn === "user") {
+				$('#userHand').append($newCard); // FIXME: maybe can make one line
+			} else {
+				$('#dealerHand').append($newCard);
+			}
+			// console.log(hand[turn].cards);
+			hand[turn].cards.push(shuffled[randIndex]);
+			var discard = shuffled.splice(randIndex, 1);
+			sumCards();
+			timeoutComplete = true;
+		// },500);
+	// }
 }
 
 function sumCards() {
@@ -190,8 +204,10 @@ function dealerGo() {
 
 function dealerMove() {
 	checks.bust(playerTurn);
-	if (hand.dealer.sum > 16) {
-		compareHands();
+	if (hand.dealer.sum > 21) {
+		playerWins();
+	} else if (hand.dealer.sum > 16) {
+		return compareHands();
 	} else {
 		addCard(playerTurn);
 		dealerMove();
@@ -201,22 +217,42 @@ function dealerMove() {
 function compareHands() {
 	if (hand.user.sum === hand.dealer.sum) {
 		$('#winner').text("IT'S A PUSH").show();
-	} else if (hand.user.sum > hand.dealer.sum){
-		alert('user wins');
+	} else if (hand.user.sum > hand.dealer.sum) {
+		return playerWins();
 	} else {
-		alert('delear wins');
+		return dealerWins();
 	}
+	disableButtons();
 }
 
 function randomCard() {
 	return _.random(0, shuffled.length);
 }
 
+function disableButtons() {
+	$('#hit').attr('disabled',true).addClass('disabled');
+	$('#stay').attr('disabled',true).addClass('disabled');
+	$('#deal').attr('disabled',false).removeClass('disabled');
+}
 
-// $('#btn_submit').attr('disabled',true);
+function resetDeck() {
+	$('#userHand').empty();
+	$('#dealerHand').empty();
+	$('#winner').hide();
+	playerTurn = "user"
+	hand.dealer.sum = 0;
+	hand.user.sum = 0;
+	hand.user.cards = [];
+	hand.dealer.cards = [];
+}
 
+function dealerWins() {
+	$('#winner').text("DEALER WINS").show();
+}
 
-
+function playerWins() {
+	$('#winner').text("PLAYER WINS").show();
+}
 
 
 

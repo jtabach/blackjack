@@ -49,22 +49,61 @@ var deck = [
 	{value: 10, image: "cards/king_of_diamonds.png"},
 	{value: 10, image: "cards/king_of_hearts.png"},
 	{value: 10, image: "cards/king_of_spades.png"},
-	{value: 1, image: "cards/ace_of_clubs.png"},
-	{value: 1, image: "cards/ace_of_diamonds.png"},
-	{value: 1, image: "cards/ace_of_hearts.png"},
-	{value: 1, image: "cards/ace_of_spades2.png"},
+	{value: 11, image: "cards/ace_of_clubs.png"},
+	{value: 11, image: "cards/ace_of_diamonds.png"},
+	{value: 11, image: "cards/ace_of_hearts.png"},
+	{value: 11, image: "cards/ace_of_spades2.png"},
 ];
 
-var userHand = [];
-var dealerHand =[{value: 0, image: "cards/back.png"}];
+var checks = {
+	blackjack: function() {
+		if (hand.user.sum === 21) {
+			alert('Blackjack!');
+		}
+	},
+	bust: function(turn) {
+		if (hand[turn].sum > 21) {
+			var busted = checks.aces(turn);
+			if (busted) {
+				alert("user busted");
+			}
+		}
+	},
+
+	aces: function(turn) {
+		var index = _.findIndex(hand[turn].cards, function(o) {
+			return o["value"] === 11;
+		});
+		if (index === -1) {
+			return true;
+		} else {
+			hand[turn].cards[index].value = 1;
+			sumCards();
+		}
+		console.log(index);
+	}
+}
+
+var hand = {
+	user: {
+		cards: [],
+		sum: 0
+	},
+	dealer: {
+		cards: [{value: 0, image: "cards/back.png"}],
+		sum: 0
+	}
+};
+
 var shuffled = [];
-var playerTurn = true;
+var playerTurn = "user";
 
 $(document).ready(init);
 
 function init() {
 	$('#deal').click(shuffleDeck);
-	$('#hit').click(addCard);
+	$('#hit').click(hit);
+	$('#stay').click(stay);
 }
 
 function shuffleDeck() {
@@ -76,47 +115,78 @@ function shuffleDeck() {
 
 function dealCards() {
 	$("#backCard").show();
-	addCard();
-	addCard();
-	playerTurn = false;
-	addCard();
-	playerTurn = true;
+	addCard(playerTurn); // user first card
+	addCard(playerTurn); // user second card
+	playerTurn = "dealer";
+	addCard(playerTurn); // dealer second card, *first card is assigned as blank*
+	playerTurn = "user";
+	checks.blackjack();
+	checks.bust(playerTurn);
 }
 
-function addCard() {
-	var randIndex = _.random(0, shuffled.length);
-	console.log(randIndex);
-	var $newCard = $('<div>').addClass('card').css('background-image', "url(" + deck[randIndex].image + ")");
-	if (playerTurn) {
-		userHand.push(deck[randIndex]);
+// Created in order to invoke add card with a parameter
+function hit() {
+	addCard(playerTurn);
+	checks.bust(playerTurn); 
+}
+
+function stay() {
+	endTurn(playerTurn);
+}
+
+function endTurn(turn) {
+	if (turn === "user") {
+		dealerGo();
+	} else {
+		compareHands();
+	}
+}
+
+function addCard(turn) {
+	var randIndex = randomCard();
+	var $newCard = $('<div>').addClass('card').css('background-image', "url(" + shuffled[randIndex].image + ")");
+	if (turn === "user") {
 		$('#userHand').append($newCard);
 	} else {
-		dealerHand.push(deck[randIndex]);
 		$('#dealerHand').append($newCard);
 	}
-	// console.log(randIndex);
+	// console.log(hand[turn].cards);
+	hand[turn].cards.push(shuffled[randIndex]);
 	var discard = shuffled.splice(randIndex, 1);
-	// console.log(discard);
 	sumCards();
 }
 
 function sumCards() {
-	var userSum = _.sumBy(userHand, function(o) {
+	hand.user.sum = _.sumBy(hand.user.cards, function(o) {
 		return o['value'];
 	});
-	var dealerSum = _.sumBy(dealerHand, function(o) {
+	hand.dealer.sum = _.sumBy(hand.dealer.cards, function(o) {
 		return o['value'];
 	});
-	// console.log(userSum);
-	$("#userTotal").text(userSum);
-	$("#dealerTotal").text(dealerSum);
+	console.log(hand.user.sum);
+	$("#userTotal").text(hand.user.sum);
+	$("#dealerTotal").text(hand.dealer.sum);
 	$('#hit').show();
 }
 
+function dealerGo() {
+	var randIndex = randomCard();
+	var $newCard = $('<div>').addClass('card').css('background-image', "url(" + shuffled[randIndex].image + ")");
+	hand.dealer.cards[0] = shuffled[randIndex];
+	$('#dealerHand').children().first().remove()
+	$('#dealerHand').prepend($newCard);
+	sumCards();
+	// console.log('stay');
 
+}
 
+function compareHands() {
 
+}
 
+function randomCard() {
+	return _.random(0, shuffled.length);
+}
 
 
 

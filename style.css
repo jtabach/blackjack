@@ -1,5 +1,18 @@
 .card {
-	height: 100px;
+	height: 145px;
 	width: 100px;
 	border: 2px solid black;
+	border-radius: 10px;
+	float: left;
+	background: no-repeat;
+	background-size: contain;
+}
+
+#dealerhand, #userHand {
+	clear: both;
+}
+
+#backCard {
+	display: none;
+	background-image: url("cards/back.png");
 }

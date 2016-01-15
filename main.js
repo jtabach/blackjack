@@ -74,28 +74,32 @@ function shuffleDeck() {
 }
 
 function dealCards() {
+	$("#backCard").show();
 	addCard();
 	addCard();
 	playerTurn = false;
 	addCard();
 	playerTurn = true;
-	console.log(userHand);
-	console.log(dealerHand);
-	console.log(shuffled);
 }
 
 function addCard() {
-	var randIndex = _.random(0, deck.length);
+	var randIndex = _.random(0, shuffled.length);
 	if (playerTurn) {
 		userHand.push(deck[randIndex]);
-		$('#userhand').append('<div>').addClass('card').css('background-image', deck[randIndex].image);
+		var $newCard = $('<div>').addClass('card').css('background-image', "url(" + deck[randIndex].image + ")");
+		$('#userHand').append($newCard);
 	} else {
 		dealerHand.push(deck[randIndex]);
+		var $newCard = $('<div>').addClass('card').css('background-image', "url(" + deck[randIndex].image + ")");
+		$('#dealerHand').append($newCard);
 	}
 	shuffled.splice(randIndex, 1);
+	sumCards();
 }
 
+function sumCards() {
 
+}
 
 
 

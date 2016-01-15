@@ -56,6 +56,8 @@ var deck = [
 ];
 
 var timeoutComplete = true;
+var totalBet = 0;
+var totalChips = 1000;
 
 var checks = {
 	blackjack: function() {
@@ -112,10 +114,12 @@ function init() {
 	$('#deal').click(shuffleDeck);
 	$('#hit').click(hit);
 	$('#stay').click(stay);
+	$('.chips').click(addBet);
 }
 
 function shuffleDeck() {
 	resetDeck();
+	adjustChips();
 	$('#deal').attr('disabled',true).addClass('disabled');
 	$('#stay').attr('disabled',false).removeClass('disabled');
 	$('#hit').attr('disabled',false).removeClass('disabled');
@@ -126,8 +130,6 @@ function shuffleDeck() {
 }
 
 function dealCards() {
-
-	$("#backCard").show();
 	$('#dealerHand').append($('<div>').addClass('card').css('background-image', "url('cards/back.png')"));
 	hand.dealer.cards[0] = {value: 0, image: "cards/back.png"};
 	playerTurn = "user";
@@ -251,9 +253,17 @@ function playerWins() {
 	$('#winner').text("PLAYER WINS").show();
 }
 
+function addBet() {
+	var bet = Number($(this).text());
+	totalBet += bet;
+	console.log(bet);
+	$('#totalBet').val(totalBet);
+}
 
-
-
+function adjustChips() {
+	totalChips -= totalBet;
+	$('#totalChips').text(totalChips);
+}
 
 
 

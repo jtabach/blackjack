@@ -134,6 +134,10 @@ span {
 	padding-top: 20px;
 }
 
+.chips:hover {
+	cursor: pointer;
+}
+
 #black {
 	background: url('chips/black.png') no-repeat;
 	background-size: cover;

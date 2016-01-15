@@ -86,7 +86,7 @@ span {
 	font-size: 100px;
 }
 
-button {
+.action {
 	width: 200px;
 	height: 50px;
 	margin: 0 80px 10px 80px;
@@ -98,7 +98,7 @@ button {
 	border: 3px solid black;
 }
 
-button:hover {
+.action:hover {
 	background-color: #a6a6a6;
 	cursor: pointer;
 }
@@ -117,9 +117,85 @@ button:hover {
 	color: brown;
 }
 
+.chips {
+	height: 100px;
+	width: 100px;
+	text-align: center;
+	border: 2px solid black;
+	border-radius: 100px;
+	color: white;
+	vertical-align: center;
+	display: inline-block;
+	margin-right: 20px;
+	
+}
 
+.chips > h3 {
+	padding-top: 20px;
+}
 
+#black {
+	background: url('chips/black.png') no-repeat;
+	background-size: cover;
+}
+#green {
+	background: url('chips/green.png') no-repeat;
+	background-size: cover;
+}
+#blue {
+	background: url('chips/blue.png') no-repeat;
+	background-size: cover;
+}
+#red {
+	background: url('chips/red.png') no-repeat;
+	background-size: cover;
+}
+#white {
+	background: url('chips/white.png') no-repeat;
+	background-size: cover;
+}
 
+input {
+	height: 50px;
+	width: 80px;
+	border-radius: 10px;
+	font-size: 20px;
+	text-align: center;
+}
 
+#chipCount, #betSummary {
+	display: inline-block;
+	text-align: center;
+	margin-right: 60px
+}
 
+#chipCount {
+	background-color: #bfbfbf;
+	padding: 0 10px;
+	position: absolute;
+}
+
+#chipCount > h1 {
+	margin: 0;
+	padding: 0;
+}
+
+#chipCount > h2 {
+	margin-top: 10px;
+}
+
+#chipWrapper {
+	display: inline-block;
+	background-color: #bfbfbf;
+	border: 5px solid black;
+	border-radius: 15px; 
+	padding: 15px;
+	width: 1055px;
+	margin-top: 10px;
+}
+
+#bet {
+	height: 200px;
+	background: red;
+}
 

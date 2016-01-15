@@ -52,7 +52,7 @@ var deck = [
 	{value: 11, image: "cards/ace_of_clubs.png"},
 	{value: 11, image: "cards/ace_of_diamonds.png"},
 	{value: 11, image: "cards/ace_of_hearts.png"},
-	{value: 11, image: "cards/ace_of_spades2.png"},
+	{value: 11, image: "cards/ace_of_spades.png"},
 ];
 
 var timeoutComplete = true;
@@ -130,11 +130,12 @@ function dealCards() {
 	$("#backCard").show();
 	$('#dealerHand').append($('<div>').addClass('card').css('background-image', "url('cards/back.png')"));
 	hand.dealer.cards[0] = {value: 0, image: "cards/back.png"};
+	playerTurn = "user";
 	addCard(playerTurn); // user first card
-	addCard(playerTurn); // user second card
 	playerTurn = "dealer";
 	addCard(playerTurn); // dealer second card, *first card is assigned as blank*
 	playerTurn = "user";
+	addCard(playerTurn); // user second card
 	checks.blackjack();
 	checks.bust(playerTurn);
 }
@@ -162,21 +163,17 @@ function endTurn(turn) {
 function addCard(turn) {
 	var randIndex = randomCard();
 	var $newCard = $('<div>').addClass('card').css('background-image', "url(" + shuffled[randIndex].image + ")");
-	// if (timeoutComplete) {
-		timeoutComplete = false;
-		// setTimeout(function() {
-			if (turn === "user") {
-				$('#userHand').append($newCard); // FIXME: maybe can make one line
-			} else {
-				$('#dealerHand').append($newCard);
-			}
-			// console.log(hand[turn].cards);
-			hand[turn].cards.push(shuffled[randIndex]);
-			var discard = shuffled.splice(randIndex, 1);
-			sumCards();
-			timeoutComplete = true;
-		// },500);
-	// }
+	// setTimeout(function() {
+		if (turn === "user") {
+			$('#userHand').append($newCard); // FIXME: maybe can make one line
+		} else {
+			$('#dealerHand').append($newCard);
+		}
+		console.log(hand[turn].cards);
+		hand[turn].cards.push(shuffled[randIndex]);
+		var discard = shuffled.splice(randIndex, 1);
+		sumCards();
+	// },500);
 }
 
 function sumCards() {
@@ -226,7 +223,7 @@ function compareHands() {
 }
 
 function randomCard() {
-	return _.random(0, shuffled.length);
+	return _.random(0, (shuffled.length -1) );
 }
 
 function disableButtons() {

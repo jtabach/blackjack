@@ -12,7 +12,7 @@
 			<h1 class="title">BLACK<span>J</span>ACK</h1>
 			<div class="wrapper">
 				<div class="board" id="dealerHand">
-					
+
 				</div>
 				<div class="score">
 					<h1 class="player">DEALER</h1>
@@ -22,7 +22,6 @@
 			</div>
 			<div class="wrapper">
 				<div class="board" id="userHand">
-					<div id="backCard"class="card"></div>
 				</div>
 				<div class="score">
 					<h1 class="player">PLAYER</h1>
@@ -31,9 +30,24 @@
 				</div>
 			</div>	
 			<div id="actions">
-				<button id="deal">DEAL</button>
-				<button id="stay">STAY</button>
-				<button id="hit">HIT</button>
+				<button class="action" id="deal">DEAL</button>
+				<button class="action" id="stay">STAY</button>
+				<button class="action" id="hit">HIT</button>
+			</div>
+			<div id="chipWrapper">
+				<div class="chips" id="black"><h3>100</h3></div>
+				<div class="chips" id="green"><h3>25</h3></div>
+				<div class="chips" id="blue"><h3>10</h3></div>
+				<div class="chips" id="red"><h3>5</h3></div>
+				<div class="chips" id="white"><h3>1</h3></div>
+				<div id="betSummary">
+					<input id="totalBet" type="number" min="1" max="1000">
+					<button class="clear">Clear Bet</button>
+				</div>
+				<div id="chipCount">
+					<h2>TOTAL CHIPS</h2>
+					<h1>1000</h1>
+				</div>
 			</div>
 		</div>
 	</div>

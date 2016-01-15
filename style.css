@@ -103,16 +103,6 @@ span {
 	cursor: pointer;
 }
 
-.disabled {
-	opacity: 0.5;
-}
-
-.disabled:hover {
-	background-color: #bfbfbf;
-	opacity: 0.5;
-	cursor: default;
-}
-
 .player {
 	color: brown;
 }
@@ -170,7 +160,7 @@ input {
 #chipCount, #betSummary {
 	display: inline-block;
 	text-align: center;
-	margin-right: 60px
+	margin-right: 62px
 }
 
 #chipCount {
@@ -201,5 +191,15 @@ input {
 #bet {
 	height: 200px;
 	background: red;
+}
+
+.disabled {
+	opacity: 0.5;
+}
+
+.disabled:hover {
+	background-color: #bfbfbf;
+	opacity: 0.5;
+	cursor: default;
 }
 

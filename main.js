@@ -115,11 +115,15 @@ function init() {
 	$('#hit').click(hit);
 	$('#stay').click(stay);
 	$('.chips').click(addBet);
+	$('.clear').click(clearBet);
 }
 
 function shuffleDeck() {
 	resetDeck();
+	totalChips -= totalBet;
 	adjustChips();
+	clearBet();
+	disableBetting();
 	$('#deal').attr('disabled',true).addClass('disabled');
 	$('#stay').attr('disabled',false).removeClass('disabled');
 	$('#hit').attr('disabled',false).removeClass('disabled');
@@ -247,27 +251,44 @@ function resetDeck() {
 
 function dealerWins() {
 	$('#winner').text("DEALER WINS").show();
+	totalBet = 0;
+	adjustChips();
+	enableBetting();
 }
 
 function playerWins() {
+	totalChips += totalBet * 2;
 	$('#winner').text("PLAYER WINS").show();
+	totalBet = 0;
+	adjustChips();
+	enableBetting();
 }
 
 function addBet() {
-	var bet = Number($(this).text());
-	totalBet += bet;
-	console.log(bet);
-	$('#totalBet').val(totalBet);
+	if (!$('.chips').hasClass('disabled')) {
+		var bet = Number($(this).text());
+		totalBet += bet;
+		console.log(bet);
+		$('#totalBet').val(totalBet);
+	}
 }
 
 function adjustChips() {
-	totalChips -= totalBet;
 	$('#totalChips').text(totalChips);
 }
 
+function clearBet() {
+	$('#totalBet').val(0);
+	totalBet = 0;
+}
 
+function disableBetting() {
+	$('.chips').attr('disabled', true).addClass('disabled');
+}
 
-
+function enableBetting() {
+	$('.chips').attr('disabled', false).removeClass('disabled');
+}
 
 
 

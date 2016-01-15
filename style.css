@@ -16,3 +16,7 @@
 	display: none;
 	background-image: url("cards/back.png");
 }
+
+#hit {
+	display: none;
+}
